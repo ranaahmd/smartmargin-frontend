@@ -1,7 +1,70 @@
-import React from 'react'
+import React,{useEffect,useState} from 'react'
+import axios from 'axios'
 
-export default function IngredientsForm() {
+export default function IngredientsForm({onSuccess,editItem,onUpdate}) {
+  const [form,setForm] = useState({name:"",cost_per_unit:"", unit:""})
+  const [message,setMessage]= useState("")
+  const API_URL = "http://127.0.0.1:8000/api/ingredients/"
+  useEffect(()=>{
+    if (editItem){
+      setForm({
+        name :editItem.name,
+        cost_per_unit:editItem.cost_per_unit,
+        unit:editItem.unit
+      })
+    }else{
+      setForm({name:"",cost_per_unit:"",unit:""})
+    }
+    
+  },[editItem])
+  const handleChange =(e) =>
+    setForm({...form,[e.target.name]: e.target.value})
+  const handleSubmit= async(e) =>{
+    e.preventDefault()
+   try {
+      const token = localStorage.getItem("access");
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+      if(editItem){
+
+        await axios.put(`${API_URL}${editItem.id}/`, form, { headers });
+        setMessage(" Successfully update")
+        onUpdate(form)
+      }else{
+        await axios.post(API_URL, form, { headers });
+        setMessage("successfully added")
+        onSuccess()
+      }setForm({name:"",cost_per_unit:"",unit:""})
+    }catch{
+      setMessage("faild save ingerdients")
+    }
+  }
   return (
-    <div>IngredientsForm</div>
+    <div className='ingredientsform'>
+      <h3>{editItem? "Edit ingerdients:" :"Add new ingerdients"}</h3>
+      {message &&<p>{message}</p>}
+      <form onSubmit={handleSubmit}>
+        <input
+        name="name"
+        placeholder='Name'
+        value={form.name}
+        onChange={handleChange}/>
+        <input 
+        name="cost_per_unit"
+        placeholder='cost_per_unit'
+        value={form.cost_per_unit}
+        onChange={handleChange}/>
+        <input 
+        name='unit'
+        placeholder='unit'
+        value={form.unit}
+        onChange={handleChange}
+        />
+        <button type='submit'>{editItem ? "Update" : "Add"}</button>
+
+      </form>
+
+    </div>
   )
 }

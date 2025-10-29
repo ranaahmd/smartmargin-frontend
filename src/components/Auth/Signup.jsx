@@ -22,7 +22,7 @@ export default function SignUp() {
          { username: form.username,
              password: form.password,
               email :form.email})
-      navigate('/login')
+              navigate('/login')
     } catch (err) {
       console.error(err)
       alert('Signup failed')

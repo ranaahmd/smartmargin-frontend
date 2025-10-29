@@ -1,7 +1,7 @@
 import React, {useEffect,useState} from "react"
 import axios from "axios"
 import IngredientsForm from "./IngredientsForm"
-import React from 'react'
+
 
 export default function () {
     const [ingredients,setIngredients] = useState([])
@@ -9,21 +9,24 @@ export default function () {
     const [editItem,setEditItem]= useState(null)
     const [refresh,setRefresh]=useState(false)
     const API_URL = "http://127.0.0.1:8000/api/ingredients/"
-    useEffect(() =>{
-        const loadIngredaients = async()=>{
-            try{
-                const res = await axios.get(API_URL)
-                setIngredients(res.data)
+    useEffect(() => {
+  const loadIngredients = async () => {
+    try {
+      const res = await axios.get(API_URL, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access")}`,
+        },
+      });
+      setIngredients(res.data);
+      setError("");
+    } catch (err) {
+      console.error(err);
+      setError("Failed loading your ingredients");
+    }
+  };
 
-            }catch(err){
-                setError(" Failed loading your ingredients")
-
-            }
-
-        }
-        loadIngredaients()
-        [refresh]
-    })
+  loadIngredients();
+}, [refresh]);
     const handleDelete = async (id) =>{
         try{
             await axios.delete(`${API_URL}${id}/`)

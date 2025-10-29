@@ -1,13 +1,19 @@
 import React, { useEffect } from 'react'
 import { clearTokens } from '../../lib/auth'
 import { useNavigate } from 'react-router'
-
-export default function Logout() {
-const navigate = useNavigate()
-useEffect(() =>{
-    localStorage.removeItem("access")
-    localStorage.removeItem("refresh")
-    navigate("/login")
-},[navigate])
-return null
+//  copied from cat-collector-by george
+function LogOutButton({setUser}) {
+    const navigate = useNavigate()
+    function handleLogOut(){
+        clearTokens()
+        setUser(null)
+        navigate('/login')
+    }
+  return (
+    <div>
+      <button onClick={handleLogOut}>Log Out</button>
+    </div>
+  )
 }
+
+export default LogOutButton

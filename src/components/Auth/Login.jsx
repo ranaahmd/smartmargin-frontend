@@ -17,9 +17,11 @@ export default function Login({ setUser }) {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try { 
-        const res = await axios.post("http://127.0.0.1:8000/api/login/",form)
+      const res = await axios.post("http://127.0.0.1:8000/api/token/", form)
+
          saveTokens(res.data.access, res.data.refresh)
       setUser(getUserFromToken())
+      navigate('/ingredients')
     } catch (err) {
       console.error(err)
     }

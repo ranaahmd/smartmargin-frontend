@@ -5,9 +5,11 @@ import Login from "./components/Auth/Login";
 import NavBar from "./components/Auth/NavBar/NavBar";
 import ProtectedRoute from "./components/Auth/ProtectedRoute";
 import { getUserFromToken } from "./lib/auth";
+import IngredientsList from './components/Ingredients/IngredientsList';
 
 export default function App() {
   const [user, setUser] = useState(null)
+  
   useEffect(() => {
     const tokenUser = getUserFromToken();
     setUser(tokenUser);
@@ -19,6 +21,7 @@ export default function App() {
        <Route path="/" element={<div>Home Page - <a href="/signup">Sign Up</a> | <a href="/login">Login</a></div>} />
       <Route path ="/signup" element={<SignUp/>}/>
       <Route path ="/login" element={<Login setUser={setUser}/>}/>
+      <Route path="/ingredients" element={<IngredientsList/>}/>
     </Routes>
    </Router>
   )
