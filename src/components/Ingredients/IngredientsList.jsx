@@ -16,7 +16,7 @@ export default function () {
                 setIngredients(res.data)
 
             }catch(err){
-                setError(" Failed you need to add some ingredients")
+                setError(" Failed loading your ingredients")
 
             }
 
@@ -25,7 +25,7 @@ export default function () {
         [refresh]
     })
     const handleDelete = async(id)=>{
-        
+
     }
 
 
