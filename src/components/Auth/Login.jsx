@@ -1,8 +1,10 @@
 import React, { useState } from "react"
 import axios from "axios"
+import "../../App.css";
 import { saveTokens, getUserFromToken } from "../../lib/auth"
 import { useNavigate } from "react-router"
-export default function Login() {
+
+export default function Login({ setUser }) {
       const [form,setForm] =useState({
         username:"",
         password:""
@@ -14,27 +16,26 @@ export default function Login() {
       
   const handleSubmit = async (e) => {
     e.preventDefault()
-    // copied from gerge
     try { 
-        const res = await API.post("/login/",form)
+        const res = await axios.post("http://127.0.0.1:8000/api/login/",form)
          saveTokens(res.data.access, res.data.refresh)
       setUser(getUserFromToken())
-      navigate("/dashboard")
     } catch (err) {
       console.error(err)
     }
   }
 
   return (
-    <div>
-        <h2>Login</h2>
-          <form onSubmit={handleSubmit}>
-            <input name="username" placeholder="Username" onChange={handleChange}/>
-            <input name="password" placeholder="Password" type="password" onChange={handleChange}/>
-            <button type="submit">Login</button>
-
+    <div className="login-container">
+        <div className="login-card">
+        <h2 className="login-title">Login</h2>
+          <form className="login-form" onSubmit={handleSubmit}>
+            <input className="login-input" name="username" placeholder="Username" onChange={handleChange}/>
+            <input className="login-input" name="password" placeholder="Password" type="password" onChange={handleChange}/>
+            <button className="login-button" type="submit">Login</button>
         </form>
     </div>
-
-  )}
+</div>
+  )
+}
 

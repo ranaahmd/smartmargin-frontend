@@ -1,20 +1,19 @@
-
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-// copied idea from cat-collector
+import "../../App.css";
+// copied from george
 export default function SignUp() {
   const [form,setForm] =useState({
     username:"",
     email:"",
     password:""
   })
-  const navigate = useNavigate()
-  const handleChange =(e) =>{
-    setForm({...form,[e.target.name]:e.target.value})
-  
+  const navigate = useNavigate();
 
-}
+  const handleChange = (e) => {
+    setForm({...form,[e.target.name]:e.target.value});
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -31,15 +30,20 @@ export default function SignUp() {
   }
 
   return (
-    <div>
-        <h2>Signup</h2>
-        <form onSubmit={handleSubmit}>
-            <input name="username" placeholder="Username" onChange={handleChange}/>
-            <input name="email" placeholder="email" onChange={handleChange}/>
-            <input name="password" placeholder="Password" type="password" onChange={handleChange}/>
-            <button type="submit">Sign up</button>
-
+    <div className="signup-container">
+        <div className="signup-card">
+        <h2 className="signup-title">Signup</h2>
+        <p className="signup-subtitle"> Create your account</p>
+        <form className="signup-form" onSubmit={handleSubmit}>
+            <input className="signup-input" name="username" placeholder="Username" onChange={handleChange}/>
+            <input className="signup-input" name="email" placeholder="email" onChange={handleChange}/>
+            <input className="signup-input" name="password" placeholder="Password" type="password" onChange={handleChange}/>
+            <button className="signup-button" type="submit">Sign up</button>
         </form>
+          <p className="login-link">
+              Already have an account? <a href="/login">Login here</a>
+            </p>
+    </div> 
     </div>
   )
 }
