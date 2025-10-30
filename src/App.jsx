@@ -21,7 +21,11 @@ export default function App() {
        <Route path="/" element={<div>Home Page - <a href="/signup">Sign Up</a> | <a href="/login">Login</a></div>} />
       <Route path ="/signup" element={<SignUp/>}/>
       <Route path ="/login" element={<Login setUser={setUser}/>}/>
-      <Route path="/ingredients" element={<IngredientsList/>}/>
+      <Route path="/ingredients" element={
+          <ProtectedRoute>
+            <IngredientsList />
+          </ProtectedRoute>
+        } />
     </Routes>
    </Router>
   )

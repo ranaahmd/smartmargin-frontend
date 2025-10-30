@@ -158,4 +158,27 @@
 .login-button:disabled {
   background-color: #6c757d;
   cursor: not-allowed;
+}.ingredients-container {
+  width: 80%;
+  margin: auto;
+}
+
+.ingredients-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.ingredients-table th, .ingredients-table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
+.ingredients-table th {
+  background-color: #f2f2f2;
+}
+
+.ingredients-table button {
+  margin-right: 5px;
 }
