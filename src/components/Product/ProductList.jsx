@@ -15,10 +15,7 @@ const ProductsList = () => {
     const fetchProducts = async () => {
         try {
             setLoading(true);
-            const response = await authRequest({
-                method: 'GET',
-                url: 'http://127.0.0.1:8000/api/products/'
-            });
+            const response = await authRequest({ method: 'GET', url: 'http://127.0.0.1:8000/api/products/' });
             setProducts(response.data);
         } catch (err) {
             if (err.response?.status === 401) navigate('/login');
@@ -33,41 +30,40 @@ const ProductsList = () => {
             fetchProducts();
         }
     };
+
     return (
-    <div className="container-product">
-         <div className="prod-header"><h2>Products</h2><div>
-            <button className="btn-addproduct" onClick={() => navigate('/products/add')}>+ Add Product</button>
-            <button className="btn-logout" onClick={() => { clearTokens(); navigate('/login'); }}>Logout</button>
+        <div className="container-listproduct">
+            <div className="items-products">
+                <h2>Products</h2>
+                <div>
+                    <button className="btn-addproduct" onClick={() => navigate('/products/add')}>+ Add Product</button>
+                    <button className="btn-logout" onClick={() => { clearTokens(); navigate('/login'); }}>Logout</button>
                 </div>
             </div>
-            {/* copied from reddiet */}
-            {loading ? (
-                <div className="create-p"><div className="border-product" /></div>
-            ) : products.length === 0 ? (
-                <div className="p-info">Create your first product!</div>
-            ) : (<div className="table-product"><table className="p-table"><thead className="th-p">
-                <tr>
-                    <th>Product Name</th>
-                    <th>Total Cost</th>
-                    <th>Selling Price</th>
-                    <th>Profit Margin</th>
-                    <th>Actions</th>
-                </tr></thead><tbody>
-                    {products.map(product => (
-                        <tr key={product.id}>
-                            <td>{product.name}</td>
-                            <td>${product.total_cost }</td>
-                            <td>${product.selling_price }</td>
-                            <td>{product.profit_margin }%</td><td>
-                                <button className="btn-pro" onClick={() => navigate(`/products/${product.id}`)}> View</button>
-                                <button className="btn-editproduct" onClick={() => navigate(`/products/edit/${product.id}`)}>Edit</button>
-                                <button className="btn-deleteproduct"onClick={() => deleteProduct(product.id)}>Delete</button></td></tr>))}
-                                </tbody>
-                                </table>
-                                </div>
-                            )}
-                             </div>
-                             );
-                            };
+            {loading ? <div className="text-center"><div className="borde-product" /></div> : 
+            products.length === 0 ? <div className="alert-info">No products found</div> :
+            <div className="table-responsive">
+                <table className="table-str">
+                    <thead><tr><th>Name</th><th>Cost</th><th>Price</th><th>Profit</th><th>Actions</th></tr></thead>
+                    <tbody>
+                        {products.map(product => (
+                            <tr key={product.id}>
+                                <td>{product.name}</td>
+                                <td>${product.total_cost || 0}</td>
+                                <td>${product.selling_price || 0}</td>
+                                <td>{product.profit_margin || 0}%</td>
+                                <td>
+                                    <button className="btn-viewproduct" onClick={() => navigate(`/products/${product.id}`)}>View</button>
+                                    <button className="btn-editproduct" onClick={() => navigate(`/products/edit/${product.id}`)}>Edit</button>
+                                    <button className="btn-deleteproduct" onClick={() => deleteProduct(product.id)}>Delete</button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>}
+        </div>
+    );
+};
 
-export default ProductsList
+export default ProductsList;
