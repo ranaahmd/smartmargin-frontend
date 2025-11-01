@@ -19,6 +19,10 @@ export default function NotesList({ initialNotes }) {
     const [searchText, setSearchText] = useState('');
     const [darkMode,setDarkMode] =useState(false)
     useEffect(()=>{
+        const savedNotes = JSON.parse(localStorage.getItem('react-notes-app-data'))
+
+    },[])
+    useEffect(()=>{
         localStorage.setItem('react-notes-app-data',JSON.stringify(notes))
     },[notes])
 
