@@ -21,4 +21,13 @@ const ProductForm = () => {
         if (!getTokens().access) navigate('/login');
         loadIngredients();
         if (isEditing) loadProduct();
-    }, [navigate, id]);
+    }, [navigate, id]); 
+    // same is ingredients list
+    const loadIngredients = async () => {
+        try {
+            const response = await authRequest({ method: 'GET', url: '/api/ingredients/' });
+            setAllIngredients(response.data);
+        } catch (err) {
+            console.error('Failed to load ingredients');
+        }
+    };
