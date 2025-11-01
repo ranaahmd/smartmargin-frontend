@@ -9,3 +9,16 @@ const ProductForm = () => {
         ingredients: [] 
     });
 }
+    const [allIngredients, setAllIngredients] = useState([]);
+    const [selectedIngredient, setSelectedIngredient] = useState('');
+    const [quantity, setQuantity] = useState('');
+    const [calculations, setCalculations] = useState({});
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const isEditing = !!id;
+
+    useEffect(() => {
+        if (!getTokens().access) navigate('/login');
+        loadIngredients();
+        if (isEditing) loadProduct();
+    }, [navigate, id]);
