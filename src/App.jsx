@@ -6,6 +6,9 @@ import NavBar from "./components/Auth/NavBar/NavBar";
 import { getUserFromToken, getTokens } from "./lib/auth";
 import IngredientsList from './components/Ingredients/IngredientsList';
 import NotesList from './components/Notes/NotesList';
+import ProductDetail from './components/Product/ProductDeatils';
+import ProductForm from './components/Product/ProductForm';
+import ProductsList from './components/Product/ProductList';
 
 export default function App() {
     const [user, setUser] = useState(null);
@@ -44,43 +47,34 @@ export default function App() {
                                 <Link to="/signup">Sign Up</Link> | 
                                 <Link to="/login">Login</Link> | 
                                 <Link to="/notes">Notes</Link> | 
-                                <Link to="/ingredients">Ingredients</Link>
+                                <Link to="/ingredients">Ingredients</Link> |
+                                <Link to="/products">Products</Link>
                             </p>
                         </div>
                     } 
                 />
-                <Route 
-                    path="/signup" 
-                    element={!isAuthenticated ? <SignUp /> : <Navigate to="/ingredients" replace />}
-                />
-                <Route 
-                    path="/login" 
-                    element={
+                <Route path="/signup" element={!isAuthenticated ? <SignUp /> : <Navigate to="/ingredients" replace />}/>
+                <Route path="/login" element={
                         !isAuthenticated ? 
                         <Login onLoginSuccess={handleLoginSuccess} /> : 
-                        <Navigate to="/ingredients" replace />
-                    } 
-                />
-                <Route 
-                    path="/notes" 
+                        <Navigate to="/ingredients" replace /> } />
+                <Route  path="/notes" 
                     element={
                         isAuthenticated ? 
                         <NotesList /> : 
-                        <Navigate to="/login" replace />
-                    }
-                />
-                <Route 
-                    path="/ingredients" 
+                        <Navigate to="/login" replace />}/>
+                <Route path="/ingredients" 
                     element={
                         isAuthenticated ? 
                         <IngredientsList /> : 
                         <Navigate to="/login" replace />
                     }
                 />
-                <Route 
-                    path="*" 
-                    element={<Navigate to="/" replace />}
-                />
+<Route path="*" element={<Navigate to="/" replace />}/>
+<Route path="/products" element={isAuthenticated ? <ProductsList /> : <Navigate to="/login" replace />} />
+<Route path="/products/add" element={isAuthenticated ? <ProductForm /> : <Navigate to="/login" replace />} />
+<Route path="/products/edit/:id" element={isAuthenticated ? <ProductForm /> : <Navigate to="/login" replace />} />
+<Route path="/products/:id" element={isAuthenticated ? <ProductDetail /> : <Navigate to="/login" replace />} />
             </Routes>
         </Router>
     );
