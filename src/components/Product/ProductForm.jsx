@@ -63,8 +63,28 @@ const ProductForm = () => {
         const sellingPrice = totalCost + profitAmount;
         return { totalCost: totalCost.toFixed(2), profitAmount: profitAmount.toFixed(2), sellingPrice: sellingPrice.toFixed(2) };
     };
+const calculations = calculateCosts();
+// the handle function copied from cat-collector 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (!form.name.trim() || ingredients.length === 0) {
+            alert('Product name and at least one ingredient required');
+            return;
+        }
+        try {
+            const productData = { name: form.name.trim(), profit_margin: parseFloat(form.profit_margin), ingredients };
+            if (isEditing) {
+                await authRequest({ method: 'PUT', url: `http://127.0.0.1:8000/api/products/${id}/`, data: productData });
+            } else {
+                await authRequest({ method: 'POST', url: 'http://127.0.0.1:8000/api/products/', data: productData });
+            }
+            navigate('/products');
+        } catch (err) {
+            alert('Failed to save product');
+        }
+    };
+    }
 
-}
 };
 
 export default ProductForm;
