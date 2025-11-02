@@ -10,13 +10,22 @@ const ProductForm = () => {
     const [quantity, setQuantity] = useState('');
     const { id } = useParams();
     const navigate = useNavigate();
-    const isEditing = !!id;
+    const isEditing = !!id; //the idea of this line from geekforgeeks
 
     useEffect(() => {
         if (!getTokens().access) navigate('/login');
         loadAllIngredients();
         if (isEditing) loadProduct();
     }, [id]);
+
+    const loadAllIngredients = async () => {
+        try {
+            const response = await authRequest({ method: 'GET', url: 'http://127.0.0.1:8000/api/ingredients/' });
+            setAllIngredients(response.data || []);
+        } catch (err) {
+            setAllIngredients([]);
+        }
+    };
 
 };
 
