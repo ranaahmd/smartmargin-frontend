@@ -55,6 +55,14 @@ const ProductForm = () => {
     const removeIngredient = (index) => {
         setIngredients(prev => prev.filter((_, i) => i !== index)); //copied from someone in reddit
     };
+    // i got help in this part from myclassmate 
+    const calculateCosts = () => {
+        const totalCost = ingredients.reduce((sum, item) => sum + (item.total_cost || 0), 0);
+        const profitMargin = parseFloat(form.profit_margin) || 0;
+        const profitAmount = totalCost * (profitMargin / 100);
+        const sellingPrice = totalCost + profitAmount;
+        return { totalCost: totalCost.toFixed(2), profitAmount: profitAmount.toFixed(2), sellingPrice: sellingPrice.toFixed(2) };
+    };
 
 }
 };
