@@ -21,6 +21,50 @@ const ProductDetail = () => {
         }
     };
 
-}
+   if (!product) return <div className="text-center"><div className="di" /></div>;
+
+    return (
+        <div className="container-product">
+            <div className="product-item">
+                <h2>{product.name}</h2>
+                <button className="btn-back" onClick={() => navigate('/products')}>Back</button>
+            </div>
+            <div className="row">
+                <div className="card-display -colm">
+                    <div className="card">
+                        <div className="card-ingredients">
+                            <h5>Ingredients</h5>
+                            {product.ingredients?.length > 0 ? 
+                                <table className="table-str">
+                                    <thead><tr><th>Ingredient</th><th>Qty</th><th>Cost</th></tr></thead>
+                                    <tbody>
+                                        {product.ingredients.map((item, index) => (
+                                            <tr key={index}>
+                                                <td>{item.ingredient_name}</td>
+                                                <td>{item.quantity} {item.unit}</td>
+                                                <td>${item.total_cost}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table> : 
+                                <p>No ingredients</p>}
+                        </div>
+                    </div>
+                </div>
+                <div className="card-proftdisplay">
+                    <div className="card">
+                        <div className="card-profit">
+                            <h5 className='header-pricing'>Pricing</h5>
+                            <div><strong>Total Cost:</strong> ${product.total_cost}</div>
+                            <div><strong>Profit Margin:</strong> {product.profit_margin }</div>
+                            <div><strong>Profit:</strong> ${product.profit_amount }</div>
+                            <div><strong>Selling Price:</strong> ${product.selling_price }</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
 
 export default ProductDetail

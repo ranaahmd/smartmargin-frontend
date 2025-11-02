@@ -9,7 +9,7 @@ import NotesList from './components/Notes/NotesList';
 import ProductDetail from './components/Product/ProductDeatils';
 import ProductForm from './components/Product/ProductForm';
 import ProductsList from './components/Product/ProductList';
-
+// the part of protcting router copied from george
 export default function App() {
     const [user, setUser] = useState(null);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
