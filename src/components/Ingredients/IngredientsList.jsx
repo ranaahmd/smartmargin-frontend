@@ -91,12 +91,6 @@ const IngredientsList = () => {
         <div className="ingredients-container">
             <div className="mangament">
                 <h2>Ingredients Management</h2>
-                <button 
-                    className="btn btn-outline-danger"
-                    onClick={() => { clearTokens(); navigate('/login'); }}
-                >
-                    Logout
-                </button>
             </div>
 
             {success && <div className="alert alert-success">{success}</div>}

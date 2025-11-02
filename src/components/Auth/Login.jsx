@@ -52,7 +52,7 @@ const Login = ({ onLoginSuccess }) => {
 
                 {error && (
                     <div className="alert alert-error">
-                        <span className="alert-icon">⚠️</span>
+                       
                         {error}
                     </div>
                 )}

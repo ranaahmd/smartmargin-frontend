@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { authRequest, getTokens } from '../../lib/auth';
+import "../../App.css";
+//code quote part from: 
+// https://www.geeksforgeeks.org/reactjs/reactjs-calculator-app-adding-functionality/
+//https://medium.com/@blogshub4/how-to-create-the-investment-calculator-in-react-js-6ac60e52e7a8
+//https://github.com/codeofrelevancy/profit-margin-calculator
 
 const ProductForm = () => {
-    const [form, setForm] = useState({ name: '', profit_margin: '30' });
+    const [form, setForm] = useState({ name: '', profit_percentage: '30' });
     const [ingredients, setIngredients] = useState([]);
     const [allIngredients, setAllIngredients] = useState([]);
     const [selectedIngredient, setSelectedIngredient] = useState('');
     const [quantity, setQuantity] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
     const { id } = useParams();
     const navigate = useNavigate();
     const isEditing = !!id;
@@ -20,7 +27,10 @@ const ProductForm = () => {
 
     const loadAllIngredients = async () => {
         try {
-            const response = await authRequest({ method: 'GET', url: 'http://127.0.0.1:8000/api/ingredients/' });
+            const response = await authRequest({ 
+                method: 'GET', 
+                url: 'http://127.0.0.1:8000/api/ingredients/' 
+            });
             setAllIngredients(response.data || []);
         } catch (err) {
             setAllIngredients([]);
@@ -29,14 +39,16 @@ const ProductForm = () => {
 
     const loadProduct = async () => {
         try {
-            const response = await authRequest({ method: 'GET', url: `http://127.0.0.1:8000/api/products/${id}/` });
+            const response = await authRequest({ 
+                method: 'GET', 
+                url: `http://127.0.0.1:8000/api/products/${id}/` 
+            });
             setForm({ 
                 name: response.data.name, 
-                profit_margin: response.data.profit_margin?.toString() || '30' 
+                profit_percentage: response.data.profit_percentage?.toString() || '30'
             });
             setIngredients(response.data.ingredients || []);
         } catch (err) {
-            console.error('Error loading product');
             alert('Failed to load product');
         }
     };
@@ -51,12 +63,8 @@ const ProductForm = () => {
         if (!ingredient) return;
         
         const newIngredient = {
-            ingredient_id: ingredient.id,
-            ingredient_name: ingredient.name,
-            quantity: parseFloat(quantity),
-            unit: ingredient.unit,
-            unit_cost: ingredient.cost_per_unit,
-            total_cost: ingredient.cost_per_unit * parseFloat(quantity)
+            ingredient: ingredient.id,
+            quantity: parseFloat(quantity)
         };
         
         setIngredients(prev => [...prev, newIngredient]);
@@ -67,11 +75,14 @@ const ProductForm = () => {
     const removeIngredient = (index) => {
         setIngredients(prev => prev.filter((_, i) => i !== index));
     };
-// one of my classmate got me this idea
+
     const calculateCosts = () => {
-        const totalCost = ingredients.reduce((sum, item) => sum + (item.total_cost || 0), 0);
-        const profitMargin = parseFloat(form.profit_margin) || 0;
-        const profitAmount = totalCost * (profitMargin / 100);
+        const totalCost = ingredients.reduce((sum, item) => {
+            const ingredient = allIngredients.find(i => i.id === item.ingredient);
+            return sum + (ingredient ? ingredient.cost_per_unit * item.quantity : 0);
+        }, 0);
+        const profitPercentage = parseFloat(form.profit_percentage) || 0;
+        const profitAmount = totalCost * (profitPercentage / 100);
         const sellingPrice = totalCost + profitAmount;
         
         return { 
@@ -80,27 +91,34 @@ const ProductForm = () => {
             sellingPrice: sellingPrice.toFixed(2) 
         };
     };
-// from youtup 
+
     const calculations = calculateCosts();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
+        setError('');
         
         if (!form.name.trim()) {
             alert('Product name is required');
+            setLoading(false);
             return;
         }
         
         if (ingredients.length === 0) {
             alert('At least one ingredient is required');
+            setLoading(false);
             return;
         }
 
         try {
             const productData = { 
                 name: form.name.trim(), 
-                profit_margin: parseFloat(form.profit_margin), 
-                ingredients 
+                profit_percentage: parseFloat(form.profit_percentage),
+                ingredients: ingredients.map(item => ({
+                    ingredient: item.ingredient,
+                    quantity: parseFloat(item.quantity)
+                }))
             };
             
             if (isEditing) {
@@ -119,8 +137,18 @@ const ProductForm = () => {
             
             navigate('/products');
         } catch (err) {
-            console.error('Save error:', err);
-            alert('Failed to save product. Please check console for details.');
+            const errorData = err.response?.data;
+            if (errorData && typeof errorData === 'object') {
+                const errorMessages = [];
+                for (const [key, value] of Object.entries(errorData)) {
+                    errorMessages.push(`${key}: ${Array.isArray(value) ? value[0] : value}`);
+                }
+                setError(errorMessages.join(', '));
+            } else {
+                setError('Failed to save product');
+            }
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -132,6 +160,8 @@ const ProductForm = () => {
                     Back to Products
                 </button>
             </div>
+
+            {error && <div className="alert alert-danger">Error: {error}</div>}
 
             <div className="row">
                 <div className="col">
@@ -146,19 +176,21 @@ const ProductForm = () => {
                                         value={form.name} 
                                         onChange={e => setForm({...form, name: e.target.value})} 
                                         required 
+                                        disabled={loading}
                                     />
                                 </div>
                                 
                                 <div className="label-p">
-                                    <label>Profit Margin (%)</label>
+                                    <label>Profit Percentage (%)</label>
                                     <input 
                                         type="number" 
                                         className="form-control" 
-                                        value={form.profit_margin} 
-                                        onChange={e => setForm({...form, profit_margin: e.target.value})} 
+                                        value={form.profit_percentage} 
+                                        onChange={e => setForm({...form, profit_percentage: e.target.value})} 
                                         min="0" 
                                         max="100" 
                                         required 
+                                        disabled={loading}
                                     />
                                 </div>
                                 
@@ -170,6 +202,7 @@ const ProductForm = () => {
                                                 className="form-control" 
                                                 value={selectedIngredient} 
                                                 onChange={e => setSelectedIngredient(e.target.value)}
+                                                disabled={loading}
                                             >
                                                 <option value="">Select Ingredient</option>
                                                 {allIngredients.map(ingredient => (
@@ -188,6 +221,7 @@ const ProductForm = () => {
                                                 onChange={e => setQuantity(e.target.value)} 
                                                 step="0.01" 
                                                 min="0.01" 
+                                                disabled={loading}
                                             />
                                         </div>
                                         <div className="col-p">
@@ -195,6 +229,7 @@ const ProductForm = () => {
                                                 type="button" 
                                                 className="btn-add" 
                                                 onClick={addIngredient}
+                                                disabled={loading}
                                             >
                                                 Add
                                             </button>
@@ -216,22 +251,26 @@ const ProductForm = () => {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {ingredients.map((item, index) => (
-                                                        <tr key={index}>
-                                                            <td>{item.ingredient_name}</td>
-                                                            <td>{item.quantity} {item.unit}</td>
-                                                            <td>${item.total_cost?.toFixed(2)}</td>
-                                                            <td>
-                                                                <button 
-                                                                    type="button" 
-                                                                    className="btn-remove" 
-                                                                    onClick={() => removeIngredient(index)}
-                                                                >
-                                                                    Remove
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-                                                    ))}
+                                                    {ingredients.map((item, index) => {
+                                                        const ingredient = allIngredients.find(i => i.id === item.ingredient);
+                                                        return (
+                                                            <tr key={index}>
+                                                                <td>{ingredient?.name || 'Loading...'}</td>
+                                                                <td>{item.quantity} {ingredient?.unit}</td>
+                                                                <td>${ingredient ? (ingredient.cost_per_unit * item.quantity).toFixed(2) : '0.00'}</td>
+                                                                <td>
+                                                                    <button 
+                                                                        type="button" 
+                                                                        className="btn-remove" 
+                                                                        onClick={() => removeIngredient(index)}
+                                                                        disabled={loading}
+                                                                    >
+                                                                        Remove
+                                                                    </button>
+                                                                </td>
+                                                            </tr>
+                                                        );
+                                                    })}
                                                 </tbody>
                                             </table>
                                         </div>
@@ -239,13 +278,14 @@ const ProductForm = () => {
                                 )}
                                 
                                 <div className="form-buttons">
-                                    <button type="submit" className="btn-success">
-                                        {isEditing ? 'Update Product' : 'Create Product'}
+                                    <button type="submit" className="btn-success" disabled={loading}>
+                                        {loading ? 'Saving...' : (isEditing ? 'Update Product' : 'Create Product')}
                                     </button>
                                     <button 
                                         type="button" 
                                         className="btn-can" 
                                         onClick={() => navigate('/products')}
+                                        disabled={loading}
                                     >
                                         Cancel
                                     </button>

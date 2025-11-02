@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { authRequest, getTokens } from '../../lib/auth';
-
+import "../../App.css";
 const ProductDetail = () => {
     const [product, setProduct] = useState(null);
     const { id } = useParams();

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authRequest, getTokens, clearTokens } from '../../lib/auth';
-
+import "../../App.css";
 const ProductsList = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(false);
