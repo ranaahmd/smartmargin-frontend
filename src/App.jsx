@@ -37,17 +37,19 @@ export default function App() {
 
     return (
         <Router>
-            <NavBar user={user} setUser={setUser} onLogout={handleLogout}/>
+            <NavBar  user={user} setUser={setUser} onLogout={handleLogout}/>
+            <div className="pt-15 min-h-screen bg-gray-50"></div>
             <Routes>
+                
                 <Route path="/" element={
-                    <div style={{ padding: '20px' }}>
-                        <h1>Home Page</h1>
-                        <p>
-                            <Link to="/signup">Sign Up</Link> | 
-                            <Link to="/login">Login</Link> | 
-                            <Link to="/notes">Notes</Link> |
-                            <Link to="/ingredients">Ingredients</Link> |
-                            <Link to="/products">Products</Link>
+                     <div className="p-6">
+                        <h1 className='"text-3xl font-bold mb-4"'>Home Page</h1>
+                         <p className="space-x-4">
+                            <Link className="text-blue-600 hover:text-blue-800"  to="/signup">Sign Up</Link> | 
+                            <Link className="text-blue-600 hover:text-blue-800"  to="/login">Login</Link> | 
+                            <Link className="text-blue-600 hover:text-blue-800"  to="/notes">Notes</Link> |
+                            <Link  className="text-blue-600 hover:text-blue-800" to="/ingredients">Ingredients</Link> |
+                            <Link  className="text-blue-600 hover:text-blue-800" to="/products">Products</Link>
                         </p>
                     </div>
                 } />

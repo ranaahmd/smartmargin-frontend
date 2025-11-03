@@ -65,7 +65,7 @@ const IngredientForm = ({ onSubmit, editingIngredient, onCancel }) => {
                                 <option value="">Select Unit</option>
                                 <option value="kg">kg</option>
                                 <option value="g">g</option>
-                                <option value="piece">piece</option>
+
                             </select>
                         </div>
                         <div className="colum-v">

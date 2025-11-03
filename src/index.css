@@ -1,3 +1,6 @@
+@import "tailwindcss";
+
+
 .note{
 background-color: #fef68a;
 border-radius: 10px;
