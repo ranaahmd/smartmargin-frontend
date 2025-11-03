@@ -4,6 +4,7 @@ import { authRequest, getTokens } from '../../lib/auth';
 import "../../App.css";
 import catbaking from '../../assets/catbaking.png'
 import catshop from '../../assets/catshop.png'
+import { ChefHat } from 'lucide-react';
 
 const ProductsList = () => {
     const [products, setProducts] = useState([]);
@@ -55,7 +56,7 @@ const ProductsList = () => {
         <section id="products-section" className="py-12 bg-[#2d2d2d] min-h-screen"> 
             <div className="container mx-auto px-4">
                 <div className="flex justify-between items-center mb-8">
-                    <h2 className="text-3xl font-bold text-white">My Products</h2>
+                    <h2 className="text-3xl font-bold flex items-center gap-2">My Products </h2>
                     <button 
                         className="bg-amber-500 hover:bg-amber-600 text-white px-6 py-3 rounded-full transition-all duration-300 hover:scale-105 shadow-lg"
                         onClick={() => navigate('/products/add')}

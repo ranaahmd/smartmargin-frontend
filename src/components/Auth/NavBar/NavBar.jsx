@@ -12,6 +12,7 @@ const NavBar = ({ user, setUser, onLogout }) => {
         { name: "Ingredients", path: '/ingredients' },
         { name: "Products", path: '/products' },
         { name: "Notes", path: '/notes' },
+         { name: "Dashboard", path: '/Dashboard' }
     ];
     
     const navigate = useNavigate();

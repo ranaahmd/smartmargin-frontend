@@ -1,4 +1,20 @@
-.signup-container {
+
+/* copied from shouq ' avice from george' */
+.app-main-div { 
+    min-height: 100vh;
+}
+
+.app-nav-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+}
+
+.app-content {
+    padding-top: 0;
+}.signup-container {
   display: flex;
   justify-content: center;
   align-items: center;

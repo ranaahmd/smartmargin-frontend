@@ -1,7 +1,8 @@
 import tocat from '../../../assets/tocat.png'
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-
+ // heros part and all the style part was inspierd and copied from 
+//  https://youtu.be/FalSgrYdrzc?si=ukeJovGdP1HnN4kC
 export default function Heros() { 
 
   
