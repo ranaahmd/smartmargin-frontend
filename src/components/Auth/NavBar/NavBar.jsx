@@ -28,7 +28,7 @@ const NavBar = ({ user, setUser, onLogout }) => {
             <div className="container mx-auto px-6 py-3 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                     <Cake className='w-7 h-7 text-amber-200'/>
-                    <span className='text-xl font-bold text-gray-100'>
+                    <span className='text-xl font-bold'>
                        Smart <span className='text-amber-200'>Margin</span>
                     </span>
                 </div>

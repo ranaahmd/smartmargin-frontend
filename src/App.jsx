@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate, Link } from "react-ro
 import SignUp from "./components/Auth/Signup";
 import Login from "./components/Auth/Login";
 import NavBar from "./components/Auth/NavBar/NavBar";
+import Heros from './components/Auth/NavBar/Heros';
 import { getUserFromToken, getTokens, clearTokens } from "./lib/auth";
 import IngredientsList from './components/Ingredients/IngredientsList';
 import NotesList from './components/Notes/NotesList';
@@ -38,6 +39,7 @@ export default function App() {
     return (
         <Router>
             <NavBar  user={user} setUser={setUser} onLogout={handleLogout}/>
+            <Heros/>
             <div className="pt-15 min-h-screen bg-gray-50"></div>
             <Routes>
                 
