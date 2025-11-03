@@ -2,13 +2,22 @@ import tocat from '../../../assets/tocat.png'
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
-export default function Heros() {
+export default function Heros() { 
+
+  
   AOS.init({
     duration: 1000, 
     once: true, 
   });
    
-   
+  const handleButtonClick = () => {
+    
+      const productsSection = document.getElementById('products-section');
+      if (productsSection) {
+        productsSection.scrollIntoView({ behavior: 'smooth' });
+      
+    }
+  }
   
   return (
     <section className='min-h-screen flex flex-col md:flex-row items-center justify-center bg-[#2d2d2d] pt-20 px-4 md:px-8 overflow-hidden gap-8'>
@@ -49,12 +58,16 @@ export default function Heros() {
             </p>
             
             <div data-aos='flip-up' data-aos-delay='1100'>
-              <button className='bg-[#2d2d2d] text-white px-8 py-3 rounded-full hover:bg-[#444] transition-all duration-300 hover:scale-105 shadow-lg mt-4'>
+              <button 
+                onClick={handleButtonClick}
+                className='bg-[#2d2d2d] text-white px-8 py-3 rounded-full hover:bg-[#444] transition-all duration-300 hover:scale-105 shadow-lg mt-4'
+              >
                 Smart Pricing Now 
               </button>
             </div>
           </div>
         </div>
+        
         <div 
           data-aos='fade-left'
           data-aos-delay='700'
@@ -65,9 +78,8 @@ export default function Heros() {
           <img
             src={tocat} 
             alt='Cat'
-            className='w-full h-auto rounded-2xl shadow-2xl'
+            className='w-[350px] md:w-[660px] md:h-[740px] object-contain drop-shadow-2xl animate-ping-float'
           />
         </div>
     </section>
-  )
-}
+  )}

@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { clearTokens } from '../../../lib/auth';
 import { Cake, Menu, X } from 'lucide-react';
 
+
 const NavBar = ({ user, setUser, onLogout }) => {
     const [isOpen, setIsOpen] = useState(false); 
     const toggleMenu = () => setIsOpen(!isOpen);
