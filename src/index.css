@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+.body {
+  @apply bg-[#2d2d2d] m-0 p-0;
+}
 
 .note{
 background-color: #fef68a;

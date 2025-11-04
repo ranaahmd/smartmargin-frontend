@@ -10,8 +10,7 @@ import NotesList from './components/Notes/NotesList';
 import ProductDetail from './components/Product/ProductDeatils';
 import ProductForm from './components/Product/ProductForm';
 import ProductsList from './components/Product/ProductList';
-import Dashboard from './components/Product/Dashboard';
-
+//copied from gorge
 function AppContent() {
   const location = useLocation();
   const isHome = location.pathname === '/';
@@ -59,6 +58,7 @@ function AppContent() {
           <Route path="/products/edit/:id" element={isAuthenticated ? <ProductForm /> : <Navigate to="/login" replace />}/>
           <Route path="/products/:id" element={isAuthenticated ? <ProductDetail /> : <Navigate to="/login" replace />}/>
           <Route path="/products" element={isAuthenticated ? <ProductsList /> : <Navigate to="/login" replace />}/>
+
           <Route path="*" element={<Navigate to="/" replace />}/>
         </Routes>
       </div>

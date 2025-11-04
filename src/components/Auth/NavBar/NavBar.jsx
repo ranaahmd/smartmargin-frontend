@@ -12,7 +12,6 @@ const NavBar = ({ user, setUser, onLogout }) => {
         { name: "Ingredients", path: '/ingredients' },
         { name: "Products", path: '/products' },
         { name: "Notes", path: '/notes' },
-         { name: "Dashboard", path: '/Dashboard' }
     ];
     
     const navigate = useNavigate();
@@ -29,9 +28,9 @@ const NavBar = ({ user, setUser, onLogout }) => {
         <nav className="w-full fixed top-0 left-0 z-30 bg-[#2d2d2d] text-white">
             <div className="container mx-auto px-6 py-3 flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                    <Cake className='w-7 h-7 text-amber-200'/>
-                    <span className='text-xl font-bold'>
-                       Smart <span className='text-amber-200'>Margin</span>
+                    <Cake className='w-7 h-7 text-amber-200'/> 
+                    {/* to get cake icon from lucide */}
+                    <span className='text-xl font-bold'>Smart <span className='text-amber-200'>Margin</span>
                     </span>
                 </div>
                 

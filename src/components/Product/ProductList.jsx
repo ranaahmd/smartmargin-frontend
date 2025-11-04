@@ -4,7 +4,8 @@ import { authRequest, getTokens } from '../../lib/auth';
 import "../../App.css";
 import catbaking from '../../assets/catbaking.png'
 import catshop from '../../assets/catshop.png'
-import { ChefHat } from 'lucide-react';
+import littlemer from '../../assets/littlemer.png'
+
 
 const ProductsList = () => {
     const [products, setProducts] = useState([]);
@@ -72,7 +73,7 @@ const ProductsList = () => {
                 ) : products.length === 0 ? (
                     <div className="bg-amber-200 rounded-2xl p-8 text-center">
                         <img 
-                            src={catbaking} 
+                            src={littlemer} 
                             alt="No products"
                             className="w-32 h-32 mx-auto mb-4 object-cover rounded-lg"
                         />
@@ -83,6 +84,7 @@ const ProductsList = () => {
                         >
                             Create Your First Product
                         </button>
+                        
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

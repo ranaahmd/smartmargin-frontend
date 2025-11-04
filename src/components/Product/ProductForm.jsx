@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { authRequest, getTokens } from '../../lib/auth';
 import "../../App.css";
-
+//code quote part from: 
+// https://www.geeksforgeeks.org/reactjs/reactjs-calculator-app-adding-functionality/
+//https://medium.com/@blogshub4/how-to-create-the-investment-calculator-in-react-js-6ac60e52e7a8
+//https://github.com/codeofrelevancy/profit-margin-calculator
 const ProductForm = () => {
     const [form, setForm] = useState({ name: '', profit_percentage: '30' });
     const [ingredients, setIngredients] = useState([]);

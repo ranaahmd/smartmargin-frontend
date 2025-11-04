@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-
 const IngredientForm = ({ onSubmit, editingIngredient, onCancel }) => {
     const [form, setForm] = useState({ name: '', cost_per_unit: '', unit: '' });
 
@@ -54,6 +53,7 @@ const IngredientForm = ({ onSubmit, editingIngredient, onCancel }) => {
                                 required
                             />
                         </div>
+        
                         <div className="col-md-3">
                             <select
                                 className="form-control"
@@ -65,6 +65,7 @@ const IngredientForm = ({ onSubmit, editingIngredient, onCancel }) => {
                                 <option value="">Select Unit</option>
                                 <option value="kg">kg</option>
                                 <option value="g">g</option>
+
 
                             </select>
                         </div>

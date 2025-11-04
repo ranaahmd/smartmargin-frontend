@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authRequest, getTokens, clearTokens } from '../../lib/auth';
 import IngredientForm from './IngredientForm';
+import catbaking from '../../assets/catbaking.png'
 
 const IngredientsList = () => {
     const [ingredients, setIngredients] = useState([]);
@@ -142,6 +143,7 @@ const IngredientsList = () => {
                         </div>
                     ) : ingredients.length === 0 ? (
                         <div className="text-center py-8">
+                           <img src={catbaking}  alt="No ingredient"className="w-32 h-32 mx-auto mb-4 object-cover rounded-lg"/>
                             <p className="text-gray-700 text-lg">No ingredients found</p>
                             <button 
                                 className="bg-[#2d2d2d] text-white px-6 py-2 rounded-full mt-4 hover:bg-[#444] transition-all"
