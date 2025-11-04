@@ -106,7 +106,8 @@ const ProductsList = () => {
                                         <span>Price: ${product.selling_price || 0}</span>
                                     </div>
                                     <div className="bg-[#b6723c] text-white px-4 py-1 rounded-full inline-block">
-                                        Profit: {product.profit_margin || 0}%
+                                        Profit: {product.profit_percentage
+ || 0}%
                                     </div>
                                 </div>
 
@@ -175,7 +176,7 @@ const ProductsList = () => {
                                         </tr>
                                         <tr className="border-b border-gray-200">
                                             <td className="py-3 font-semibold text-gray-700">Profit Margin</td>
-                                            <td className="py-3 text-gray-900">{selectedProduct.profit_margin || 0}%</td>
+                                            <td className="py-3 text-gray-900">{selectedProduct.profit_percentage || 0}%</td>
                                         </tr>
                                         <tr>
                                             <td className="py-3 font-semibold text-gray-700">Profit Amount</td>

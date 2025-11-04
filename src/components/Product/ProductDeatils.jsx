@@ -56,7 +56,8 @@ const ProductDetail = () => {
                         <div className="card-profit">
                             <h5 className='header-pricing'>Pricing</h5>
                             <div><strong>Total Cost:</strong> ${product.total_cost}</div>
-                            <div><strong>Profit Margin:</strong> {product.profit_margin }</div>
+                            <div><strong>Profit Margin:</strong> {product.profit_percentage
+ }</div>
                             <div><strong>Profit:</strong> ${product.profit_amount }</div>
                             <div><strong>Selling Price:</strong> ${product.selling_price }</div>
                         </div>
