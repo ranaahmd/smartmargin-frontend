@@ -117,8 +117,8 @@ export default function Heros() {
               data-aos='fade-up'
               data-aos-delay='900'
               className='text-gray-600 text-lg'
-            >
-              As a part-time bakery hustler at a local bakery, I know firsthand the struggle of pricing goodies - keeping customers happy without going bankrupt! And even though I'm a full-stack developer trust me that doesn't make this dough-lease any easier!
+            >As a friend of a hardworking baker at a local bakery, I’ve seen how tough pricing can be keeping customers happy without losing profit! So, as a full-stack developer, I decided to take matters into my own hands and build a solution that makes pricing as easy as pie. 🥧
+
             </p>
             
             <div data-aos='flip-up' data-aos-delay='1100'>

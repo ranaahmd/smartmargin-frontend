@@ -64,13 +64,19 @@ const ProductForm = () => {
     };
 
     useEffect(() => {
+        // Calculate total cost: sum of (cost_per_unit * quantity) for all ingredients
         const totalCost = ingredients.reduce((sum, item) => {
             const ingredient = allIngredients.find(i => i.id === item.ingredient);
             return sum + (ingredient ? ingredient.cost_per_unit * item.quantity : 0);
         }, 0);
+        //Get the profit percentage entered by the user
         const profitPercentage = parseFloat(form.profit_percentage) || 0;
+      // Calculate profit amount and final selling price
         const profitAmount = totalCost * (profitPercentage / 100);
+      
+    // Update all calculated values in the form state
         const sellingPrice = totalCost + profitAmount;
+        //update it inside the form 
         setForm(prev => ({
             ...prev,
             total_cost: totalCost.toFixed(2),
