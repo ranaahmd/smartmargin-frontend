@@ -10,6 +10,7 @@ import NotesList from './components/Notes/NotesList';
 import ProductDetail from './components/Product/ProductDeatils';
 import ProductForm from './components/Product/ProductForm';
 import ProductsList from './components/Product/ProductList';
+import axios from 'axios';
 //copied from gorge
 function AppContent() {
   const location = useLocation();
@@ -33,6 +34,20 @@ function AppContent() {
     setUser(null);
     setIsAuthenticated(false);
   };
+  // copied from conor 
+  async function fetchUser() {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const resp = await axios.get(`${baseUrl}/user`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setUser(resp.data);
+    }
+  }
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
   return (
     <div className='app-main-div'>
@@ -71,5 +86,6 @@ export default function App() {
     <Router>
       <AppContent />
     </Router>
+   
   );
 }

@@ -22,7 +22,7 @@ const ProductForm = () => {
         if (!getTokens().access) navigate('/login');
         loadAllIngredients();
         if (isEditing) loadProduct();
-    }, [id, navigate, isEditing]);
+    }, [id,isEditing]);
 
     const loadAllIngredients = async () => {
         try {

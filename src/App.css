@@ -94,7 +94,7 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #667eea 0%, #e6e2ea 100%);
     padding: 20px;
 }
 
@@ -169,7 +169,7 @@
 
 .form-input:focus {
     outline: none;
-    border-color: #667eea;
+    border-color: #cdd2e5;
 }
 
 .form-input:disabled {
@@ -188,7 +188,7 @@
 }
 
 .login-button:hover:not(:disabled) {
-    background: #5a6fd8;
+    background: #d2d5e2;
 }
 
 .login-button:disabled {
@@ -240,7 +240,7 @@
     align-items: center;
     margin-bottom: 30px;
     padding-bottom: 15px;
-    border-bottom: 2px solid #e9ecef;
+    border-bottom: 0px solid #e9ecef;
 }
 
 .items-center h2 {
@@ -341,7 +341,7 @@
 }
 
 .label-p h6 {
-    color: #2d3748;
+    color: #fbfcff;
     font-size: 16px;
     font-weight: 600;
     margin-bottom: 15px;
@@ -524,7 +524,7 @@
 }
 
 .col .card:last-child strong {
-    color: #2d3748;
+    color: #2d384f;
     font-weight: 600;
 }
 

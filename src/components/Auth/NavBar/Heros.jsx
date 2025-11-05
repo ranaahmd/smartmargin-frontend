@@ -25,7 +25,7 @@ export default function Heros() {
   };
   
   return (
-  <body className="bg-[#2d2d2d] m-0 p-0 w-full min-h-screen overflow-x-hidden border-0 border-none">
+  <div className=" m-0 p-0 w-full min-h-screen overflow-x-hidden border-0 border-none">
       <section className='min-h-screen flex flex-col md:flex-row items-center justify-center pt-20 px-4 md:px-8 overflow-hidden gap-8'>
         <div
           data-aos='zoom-in' 
@@ -41,7 +41,7 @@ export default function Heros() {
               className='uppercase tracking-widest text-[#8b5e34] font-semibold'> Product</p>
             
             <div data-aos='fade-right' data-aos-delay='500'>
-              <h1 className='text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight'>Be Smart {""}
+              <h1 className='text-4xl md:text-5xl font-extrabold text-amber-50-900 leading-tight'>Be Smart {""}
                 <span 
                   data-aos='fade-right'
                   data-aos-delay='700'
@@ -124,7 +124,7 @@ export default function Heros() {
             <div data-aos='flip-up' data-aos-delay='1100'>
               <button 
                 onClick={handleNotesButtonClick}
-                className='bg-[#2d2d2d] text-white px-8 py-3 rounded-full hover:bg-[#444] transition-all duration-300 hover:scale-105 shadow-lg mt-4'
+                className=' text-white px-8 py-3 rounded-full hover:bg-[#444] transition-all duration-300 hover:scale-105 shadow-lg mt-4'
               >
                 Take Notes 
               </button>
@@ -146,6 +146,6 @@ export default function Heros() {
           />
         </div>
       </section>
-    </body>
+    </div>
   );
 }

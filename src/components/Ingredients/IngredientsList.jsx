@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { authRequest, getTokens, clearTokens } from '../../lib/auth';
 import IngredientForm from './IngredientForm';
 import catbaking from '../../assets/catbaking.png'
+import { ChefHatIcon } from 'lucide-react';
 
 const IngredientsList = () => {
     const [ingredients, setIngredients] = useState([]);
@@ -101,10 +102,14 @@ const IngredientsList = () => {
     };
 
     return (
-        <section className="py-12 bg-[#2d2d2d] min-h-screen">
+        <section className=" min-h-screen">
             <div className="container mx-auto px-4">
                 <div className="flex justify-between items-center mb-8">
-                    <h2 className="text-3xl font-bold text-white">Ingredients Management</h2>
+                    <div className="flex items-center">
+                    <ChefHatIcon className="w-7 h-7 text-amber-200" />
+            <span className="text-xl font-bold text-amber-100 ml-2">
+             Ingredients <span className="text-amber-200">Management</span>
+             </span></div>
                     <button 
                         className="bg-amber-500 hover:bg-amber-600 text-white px-6 py-3 rounded-full transition-all duration-300 hover:scale-105 shadow-lg"
                         onClick={() => setShowForm(!showForm)}

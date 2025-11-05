@@ -35,7 +35,7 @@ export default function SignUp() {
         <h2 className="signup-title">Signup</h2>
         <p className="signup-subtitle"> Create your account</p>
         <form className="signup-form" onSubmit={handleSubmit}>
-            <input className="signup-input" name="username" placeholder="Username" onChange={handleChange}/>
+            <input className="signup-input" name="firstname" placeholder="First name" onChange={handleChange}/>
             <input className="signup-input" name="email" placeholder="email" onChange={handleChange}/>
             <input className="signup-input" name="password" placeholder="Password" type="password" onChange={handleChange}/>
             <button className="signup-button" type="submit">Sign up</button>
