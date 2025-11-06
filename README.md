@@ -75,7 +75,24 @@ The backend is powered by Django REST Framework and PostgreSQL, while the fronte
 - **Git & GitHub** – Version control and collaboration
 
 ---
+## Backend Repository
+[SmartMargin Backend](https://github.com/ranaahmd/-smartmargin-backend)
 
+## Code Highlight
+One of the standout features is the real-time cost calculation logic. It dynamically updates the product pricing based on ingredient quantities and profit percentages. This logic blends precision, performance, and real-world math—something I truly enjoyed building.
+
+## Future Enhancements
+Add data visualization charts for cost and profit tracking
+
+ Implement user roles and permissions (Admin, Regular User)
+
+ Multi-language support for global accessibility
+
+ Email notifications for product updates
+
+ Dark/light mode toggle for better UX
+
+Enhanced testing coverage for frontend and backend
 ##  Installation
 
 To run the project locally using Docker:
@@ -95,21 +112,6 @@ Backend: http://localhost:8000
 # 4. To stop the containers
 docker-compose down
 
- Backend Repository
- [Backend](https://github.com/ranaahmd/-smartmargin-backend)
 
-Code Highlight
-One of the standout features is the real-time cost calculation logic. It dynamically updates the product pricing based on ingredient quantities and profit percentages. This logic blends precision, performance, and real-world math—something I truly enjoyed building.
 
-Future Enhancements
-Add data visualization charts for cost and profit tracking
 
-Implement user roles and permissions (Admin, Regular User)
-
- Multi-language support for global accessibility
-
- Email notifications for product updates
-
- Dark/light mode toggle for better UX
-
-Enhanced testing coverage for frontend and backend
