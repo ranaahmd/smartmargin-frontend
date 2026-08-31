@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { authRequest, getTokens } from '../../lib/auth';
+import { validateProductForm, isValid } from '../../lib/validation';
 import "../../App.css";
-//code quote part from: 
+//code quote part from:
 // https://www.geeksforgeeks.org/reactjs/reactjs-calculator-app-adding-functionality/
 //https://medium.com/@blogshub4/how-to-create-the-investment-calculator-in-react-js-6ac60e52e7a8
 //https://github.com/codeofrelevancy/profit-margin-calculator
@@ -14,6 +15,7 @@ const ProductForm = () => {
     const [quantity, setQuantity] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+    const [fieldErrors, setFieldErrors] = useState({});
     const { id } = useParams();
     const navigate = useNavigate();
     const isEditing = !!id;
@@ -87,25 +89,20 @@ const ProductForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true);
         setError('');
-        if (!form.name.trim()) {
-            alert('Product name is required');
-            setLoading(false);
-            return;
-        }
-        if (ingredients.length === 0) {
-            alert('At least one ingredient is required');
-            setLoading(false);
-            return;
-        }
+        const validationErrors = validateProductForm({
+            name: form.name,
+            profitPercentage: form.profit_percentage,
+            ingredients,
+        });
+        setFieldErrors(validationErrors);
+        if (!isValid(validationErrors)) return;
+
+        setLoading(true);
         try {
-            const productData = { 
-                name: form.name.trim(), 
+            const productData = {
+                name: form.name.trim(),
                 profit_percentage: parseFloat(form.profit_percentage),
-                total_cost: parseFloat(form.total_cost),
-                profit_amount: parseFloat(form.profit_amount),
-                selling_price: parseFloat(form.selling_price),
                 ingredients: ingredients.map(item => ({
                     ingredient: item.ingredient,
                     quantity: parseFloat(item.quantity)
@@ -135,7 +132,7 @@ const ProductForm = () => {
 
     return (
         <div className="container-productform">
-            <div className="items-center">
+            <div className="product-form-header">
                 <h2>{isEditing ? 'Edit Product' : 'Create Product'}</h2>
                 <button className="btn-outline" onClick={() => navigate('/products')}>Back to Products</button>
             </div>
@@ -148,10 +145,12 @@ const ProductForm = () => {
                                 <div className="label-p">
                                     <label>Product Name</label>
                                     <input type="text" className="form-control" value={form.name} onChange={e => setForm({...form, name: e.target.value})} required disabled={loading}/>
+                                    {fieldErrors.name && <p className="text-red-600 text-xs mt-1">{fieldErrors.name}</p>}
                                 </div>
                                 <div className="label-p">
                                     <label>Profit Percentage (%)</label>
                                     <input type="number" className="form-control" value={form.profit_percentage} onChange={e => setForm({...form, profit_percentage: e.target.value})} min="0" max="100" required disabled={loading}/>
+                                    {fieldErrors.profitPercentage && <p className="text-red-600 text-xs mt-1">{fieldErrors.profitPercentage}</p>}
                                 </div>
                                 <div className="label-p">
                                     <h6>Add Ingredients</h6>
@@ -173,6 +172,7 @@ const ProductForm = () => {
                                             <button type="button" className="btn-add" onClick={addIngredient} disabled={loading}>Add</button>
                                         </div>
                                     </div>
+                                    {fieldErrors.ingredients && <p className="text-red-600 text-xs mt-1">{fieldErrors.ingredients}</p>}
                                 </div>
                                 {ingredients.length > 0 && (
                                     <div className="si">

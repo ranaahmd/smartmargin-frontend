@@ -34,7 +34,7 @@ const Login = ({ onLoginSuccess }) => {
                 onLoginSuccess();
             }
             
-            navigate('/ingredients');   
+            navigate('/dashboard');
         } catch (err) {
             setError(err.response?.data?.detail || 'Login failed');
         } finally {

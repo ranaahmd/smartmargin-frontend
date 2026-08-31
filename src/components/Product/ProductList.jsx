@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { authRequest, getTokens } from '../../lib/auth';
+import { authRequest, getTokens, clearTokens } from '../../lib/auth';
 import "../../App.css";
 import catbaking from '../../assets/catbaking.png'
 import catshop from '../../assets/catshop.png'
 import littlemer from '../../assets/littlemer.png'
 import { ChefHatIcon } from 'lucide-react';
+import { CardSkeleton } from '../Skeleton';
 
 
 const ProductsList = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [loadError, setLoadError] = useState('');
+    const [actionError, setActionError] = useState('');
     const [selectedProduct, setSelectedProduct] = useState(null);
     const navigate = useNavigate();
     const productImages = [catbaking, catshop];
@@ -18,29 +21,40 @@ const ProductsList = () => {
     useEffect(() => {
         if (!getTokens().access) navigate('/login');
         else fetchProducts();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [navigate]);
 
     const fetchProducts = async () => {
         try {
             setLoading(true);
+            setLoadError('');
             const response = await authRequest({ method: 'GET', url: 'http://127.0.0.1:8000/api/products/' });
             setProducts(response.data);
         } catch (err) {
-            if (err.response?.status === 401) navigate('/login');
+            if (err.response?.status === 401) {
+                clearTokens();
+                navigate('/login');
+                return;
+            }
+            setLoadError('Could not load your products. Please try again.');
         } finally {
             setLoading(false);
         }
     };
     const deleteProduct = async (id) => {
-        if (window.confirm('Delete this product?')) {
-            await authRequest({ 
-            method: 'DELETE', 
-            url: `http://127.0.0.1:8000/api/products/${id}/` 
-        });
-        fetchProducts();
-    
-};
-
+        if (!window.confirm('Delete this product?')) return;
+        try {
+            setActionError('');
+            await authRequest({ method: 'DELETE', url: `http://127.0.0.1:8000/api/products/${id}/` });
+            fetchProducts();
+        } catch (err) {
+            if (err.response?.status === 401) {
+                clearTokens();
+                navigate('/login');
+                return;
+            }
+            setActionError('Could not delete this product. Please try again.');
+        }
     };
 
     const showProductDetails = (product) => {
@@ -61,7 +75,7 @@ const ProductsList = () => {
     return (
         <section id="products-section" className="py-12 bg-[#2d2d2d] min-h-screen"> 
             <div className="container mx-auto px-4">
-                <div className="flex justify-between items-center mb-8">
+                <div className="flex flex-wrap gap-4 justify-between items-center mb-8">
                     <div className="flex items-center">
                    < ChefHatIcon className="w-7 h-7 text-amber-200" />
                    <span className="text-xl font-bold text-amber-100 ml-2">
@@ -69,7 +83,7 @@ const ProductsList = () => {
                            </span>
                                 </div>
 
-                    <button 
+                    <button
                         className="bg-amber-500 hover:bg-amber-600 text-white px-6 py-3 rounded-full transition-all duration-300 hover:scale-105 shadow-lg"
                         onClick={() => navigate('/products/add')}
                     >
@@ -77,9 +91,18 @@ const ProductsList = () => {
                     </button>
                 </div>
 
+                {actionError && (
+                    <div className="bg-red-100 text-red-800 rounded-xl p-3 mb-4 text-center text-sm">{actionError}</div>
+                )}
+
                 {loading ? (
-                    <div className="text-center">
-                        <div className="borde-product" />
+                    <CardSkeleton />
+                ) : loadError ? (
+                    <div className="bg-red-100 text-red-800 rounded-2xl p-8 text-center">
+                        <p className="mb-4">{loadError}</p>
+                        <button className="bg-[#2d2d2d] text-white px-6 py-2 rounded-full hover:bg-[#444]" onClick={fetchProducts}>
+                            Retry
+                        </button>
                     </div>
                 ) : products.length === 0 ? (
                     <div className="bg-amber-200 rounded-2xl p-8 text-center">
@@ -170,7 +193,7 @@ const ProductsList = () => {
                                 />
                             </div>
                             
-                            <div className="bg-white rounded-xl p-6 mb-6">
+                            <div className="bg-white rounded-xl p-6 mb-6 overflow-x-auto">
                                 <table className="w-full text-left">
                                     <thead>
                                         <tr className="border-b-2 border-gray-300">
@@ -194,7 +217,7 @@ const ProductsList = () => {
                                         <tr>
                                             <td className="py-3 font-semibold text-gray-700">Profit Amount</td>
                                             <td className="py-3 text-gray-900">
-                                                ${((selectedProduct.selling_price || 0) - (selectedProduct.total_cost || 0)).toFixed(2)}
+                                                ${(Number(selectedProduct.selling_price || 0) - Number(selectedProduct.total_cost || 0)).toFixed(2)}
                                             </td>
                                         </tr>
                                     </tbody>

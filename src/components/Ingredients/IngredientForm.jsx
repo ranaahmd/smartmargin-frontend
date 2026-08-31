@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { validateIngredientForm, isValid } from '../../lib/validation';
 
 const IngredientForm = ({ onSubmit, editingIngredient, onCancel }) => {
     const [form, setForm] = useState({ name: '', cost_per_unit: '', unit: '' });
+    const [errors, setErrors] = useState({});
 
     useEffect(() => {
         if (editingIngredient) {
@@ -13,11 +15,18 @@ const IngredientForm = ({ onSubmit, editingIngredient, onCancel }) => {
         } else {
             setForm({ name: '', cost_per_unit: '', unit: '' });
         }
+        setErrors({});
     }, [editingIngredient]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (form.name && form.cost_per_unit && form.unit) {
+        const validationErrors = validateIngredientForm({
+            name: form.name,
+            costPerUnit: form.cost_per_unit,
+            unit: form.unit,
+        });
+        setErrors(validationErrors);
+        if (isValid(validationErrors)) {
             onSubmit(form);
         }
     };
@@ -48,6 +57,7 @@ const IngredientForm = ({ onSubmit, editingIngredient, onCancel }) => {
                                 onChange={(e) => setForm({...form, name: e.target.value})}
                                 required
                             />
+                            {errors.name && <p className="text-red-600 text-xs mt-1">{errors.name}</p>}
                         </div>
 
                         {/* Cost Field */}
@@ -73,6 +83,7 @@ const IngredientForm = ({ onSubmit, editingIngredient, onCancel }) => {
                                     required
                                 />
                             </div>
+                            {errors.costPerUnit && <p className="text-red-600 text-xs mt-1">{errors.costPerUnit}</p>}
                         </div>
 
                         {/* Unit Field */}
@@ -101,6 +112,7 @@ const IngredientForm = ({ onSubmit, editingIngredient, onCancel }) => {
                                 <option value="tsp">Teaspoon</option>
                                 <option value="piece">Piece</option>
                             </select>
+                            {errors.unit && <p className="text-red-600 text-xs mt-1">{errors.unit}</p>}
                         </div>
 
                         {/* Buttons */}

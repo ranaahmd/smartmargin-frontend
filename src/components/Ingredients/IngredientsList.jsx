@@ -4,11 +4,13 @@ import { authRequest, getTokens, clearTokens } from '../../lib/auth';
 import IngredientForm from './IngredientForm';
 import catbaking from '../../assets/catbaking.png'
 import { ChefHatIcon } from 'lucide-react';
+import { RowSkeleton } from '../Skeleton';
 
 const IngredientsList = () => {
     const [ingredients, setIngredients] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
+    const [loadError, setLoadError] = useState('');
+    const [actionError, setActionError] = useState('');
     const [success, setSuccess] = useState('');
     const [editingIngredient, setEditingIngredient] = useState(null);
     const [showForm, setShowForm] = useState(false);
@@ -23,6 +25,7 @@ const IngredientsList = () => {
     const fetchIngredients = async () => {
         try {
             setLoading(true);
+            setLoadError('');
             const response = await authRequest({
                 method: 'GET',
                 url: 'http://127.0.0.1:8000/api/ingredients/'
@@ -32,7 +35,9 @@ const IngredientsList = () => {
             if (err.response?.status === 401) {
                 clearTokens();
                 navigate('/login');
+                return;
             }
+            setLoadError('Could not load your ingredients. Please try again.');
         } finally {
             setLoading(false);
         }
@@ -40,7 +45,7 @@ const IngredientsList = () => {
 
     const handleAddOrUpdateIngredient = async (formData) => {
         try {
-            setError('');
+            setActionError('');
             const submitData = {
                 name: formData.name.trim(),
                 cost_per_unit: parseFloat(formData.cost_per_unit),
@@ -71,7 +76,7 @@ const IngredientsList = () => {
                 clearTokens();
                 navigate('/login');
             } else {
-                setError('Failed to save ingredient');
+                setActionError('Failed to save ingredient');
             }
         }
     };
@@ -80,6 +85,7 @@ const IngredientsList = () => {
         if (!window.confirm('Are you sure you want to delete this ingredient?')) return;
 
         try {
+            setActionError('');
             await authRequest({
                 method: 'DELETE',
                 url: `http://127.0.0.1:8000/api/ingredients/${id}/`
@@ -87,7 +93,12 @@ const IngredientsList = () => {
             setSuccess('Ingredient deleted successfully!');
             fetchIngredients();
         } catch (err) {
-            setError('Failed to delete ingredient');
+            if (err.response?.status === 401) {
+                clearTokens();
+                navigate('/login');
+                return;
+            }
+            setActionError('Failed to delete ingredient');
         }
     };
 
@@ -104,7 +115,7 @@ const IngredientsList = () => {
     return (
         <section className=" min-h-screen">
             <div className="container mx-auto px-4">
-                <div className="flex justify-between items-center mb-8">
+                <div className="flex flex-wrap gap-4 justify-between items-center mb-8">
                     <div className="flex items-center">
                     <ChefHatIcon className="w-7 h-7 text-amber-200" />
             <span className="text-xl font-bold text-amber-100 ml-2">
@@ -123,9 +134,9 @@ const IngredientsList = () => {
                         {success}
                     </div>
                 )}
-                {error && (
+                {actionError && (
                     <div className="bg-red-500 text-white p-4 rounded-lg mb-6 text-center">
-                        {error}
+                        {actionError}
                     </div>
                 )}
 
@@ -143,8 +154,13 @@ const IngredientsList = () => {
                     <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">Ingredients List</h3>
                     
                     {loading ? (
+                        <RowSkeleton />
+                    ) : loadError ? (
                         <div className="text-center py-8">
-                            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+                            <p className="text-gray-700 mb-4">{loadError}</p>
+                            <button className="bg-[#2d2d2d] text-white px-6 py-2 rounded-full hover:bg-[#444]" onClick={fetchIngredients}>
+                                Retry
+                            </button>
                         </div>
                     ) : ingredients.length === 0 ? (
                         <div className="text-center py-8">

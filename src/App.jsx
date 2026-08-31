@@ -10,14 +10,14 @@ import NotesList from './components/Notes/NotesList';
 import ProductDetail from './components/Product/ProductDeatils';
 import ProductForm from './components/Product/ProductForm';
 import ProductsList from './components/Product/ProductList';
-import axios from 'axios';
-//copied from gorge
+import Dashboard from './components/Dashboard/Dashboard';
+
 function AppContent() {
   const location = useLocation();
   const isHome = location.pathname === '/';
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  
+
   useEffect(() => {
     checkAuthentication();
   }, []);
@@ -34,39 +34,23 @@ function AppContent() {
     setUser(null);
     setIsAuthenticated(false);
   };
-  // copied from conor 
-  async function fetchUser() {
-    const token = localStorage.getItem("token");
-    if (token) {
-      const resp = await axios.get(`${baseUrl}/user`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setUser(resp.data);
-    }
-  }
-
-  useEffect(() => {
-    fetchUser();
-  }, []);
 
   return (
     <div className='app-main-div'>
-      {isHome && ( //this part of Navbar copied from shouq 
-        <div className='app-nav-bar'>
-          <NavBar user={user} setUser={setUser} onLogout={handleLogout}/>
-        </div>
-      )}
-      
+      <div className='app-nav-bar'>
+        <NavBar user={user} setUser={setUser} onLogout={handleLogout}/>
+      </div>
+
       <div className={isHome ? "" : "app-content"}>
         <Routes>
           <Route path="/" element={
             <div className="bg-[#2d2d2d] min-h-screen">
               <Heros/>
-              {isAuthenticated && <ProductsList />}
             </div>
           } />
-          <Route path="/signup" element={!isAuthenticated ? <SignUp /> : <Navigate to="/" replace />}/>
-          <Route path="/login" element={!isAuthenticated ? <Login onLoginSuccess={checkAuthentication} /> : <Navigate to="/" replace />}/>
+          <Route path="/signup" element={!isAuthenticated ? <SignUp /> : <Navigate to="/dashboard" replace />}/>
+          <Route path="/login" element={!isAuthenticated ? <Login onLoginSuccess={checkAuthentication} /> : <Navigate to="/dashboard" replace />}/>
+          <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" replace />}/>
           <Route path="/notes" element={isAuthenticated ? <NotesList /> : <Navigate to="/login" replace />}/>
           <Route path="/ingredients" element={isAuthenticated ? <IngredientsList /> : <Navigate to="/login" replace />}/>
            <Route path="/products/add" element={isAuthenticated ? <ProductForm /> : <Navigate to="/login" replace />}/>

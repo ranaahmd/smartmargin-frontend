@@ -9,6 +9,7 @@ const NavBar = ({ user, setUser, onLogout }) => {
     const toggleMenu = () => setIsOpen(!isOpen);
     
     const protectedLinks = [
+        { name: "Dashboard", path: '/dashboard' },
         { name: "Ingredients", path: '/ingredients' },
         { name: "Products", path: '/products' },
         { name: "Notes", path: '/notes' },
